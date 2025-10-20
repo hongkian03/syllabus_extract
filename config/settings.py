@@ -50,6 +50,10 @@ INSTALLED_APPS = [
     "apps.dashboard",
 ]
 
+LOGIN_REDIRECT_URL = "/dashboard/"
+LOGOUT_REDIRECT_URL = "/users/login/"
+LOGIN_URL = "/users/login/"
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
