@@ -13,7 +13,7 @@ class UserProfile(models.Model):
     )
 
     # extra fields
-    api_key = EncryptedCharField(max_length=255, required=True)
+    api_key = EncryptedCharField(max_length=255, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

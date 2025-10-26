@@ -1,8 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from users.utils import *
-from validate_email import validate_email
+from apps.users.utils import *
+from validate_email import validate_email   # external library
+from apps.users.utils import encrypt, is_valid_gemini_api_key
+from apps.users.models import UserProfile
 
 
 # Sign Up form
@@ -44,11 +46,12 @@ class SignUpForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
+        user.save()
         api_key = self.cleaned_data.get("api_key")
         if api_key:
-            encrypted_api_key = encrypt(api_key.encode())
-            user.profile.api_key = encrypted_api_key
-            user.profile.save()
+            profile, created = UserProfile.objects.get_or_create(user=user)
+            profile.api_key = api_key
+            profile.save()
 
         return user
 
@@ -66,13 +69,21 @@ class UpdateAPIKeyForm(forms.ModelForm):
         model = User
         fields = ("api_key",)
 
+    # check API key validity
+    def clean_api_key(self):
+        api_key = self.cleaned_data.get("api_key")
+        if api_key and not is_valid_gemini_api_key(api_key):
+            raise forms.ValidationError("Invalid Gemini API key.")
+        return api_key
+
     def save(self, commit=True):
         user = super().save(commit=False)
+        user.save()
         api_key = self.cleaned_data.get("api_key")
         if api_key:
-            encrypted_api_key = encrypt(api_key.encode())
-            user.profile.api_key = encrypted_api_key
-            user.profile.save()
+            profile, created = UserProfile.objects.get_or_create(user=user)
+            profile.api_key = api_key
+            profile.save()
 
         return user
 
