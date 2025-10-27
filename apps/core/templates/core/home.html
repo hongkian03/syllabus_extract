@@ -9,8 +9,38 @@
 <body>
     {% include 'partials/navbar.html' %}
     <div class="content">
-        <h1>Welcome to the Home Page</h1>
-        <p>This is the main content area.</p>
+        <h1>Hello, and welcome to Syllaviz!</h1>
+        <h2>What is it?</h2>
+        <p>
+            Syllaviz is a website that helps you to visualize your syllabus and manage your academic schedule effectively.
+            By uploading your syllabus document, Syllaviz will help to extract key academic information such as assignment deadlines, 
+            exam dates, project milestones and class schedules. This information is then presented in a timeline format, with the option 
+            to sync it up with your personal calendar of choice.
+        </p>
+        <h2>Get started</h2>
+        <p>
+            To get started, you need an account (which, judging by the fact you're on this home page, you probably already have!). 
+            Once logged in, you can navigate to the Upload page to upload your syllabus document. After processing, you can view your 
+            academic timeline on the Dashboard page.
+        </p>
+        <h2>How did you build this?</h2>
+        <p>
+            Nothing's been done to reinvent the wheel here. The backend was built using Django, though I just as easily could've used 
+            something like Spring Boot or Next.js (in fact I chose Django purely because I wanted to write the backend utility functions 
+            in Python). The frontend is plain and simple HTML/CSS with Django templates, because I despise frontend development with a passion 
+            (and hence am not very good at it). The magical syllabus parsing is done using a combination of PDF parsing libraries and 
+            some API calls to Google Gemini (hence the need for your API key during account setup). Perhaps in the long run, if/when I get to 
+            a reasonable proficiency as a ML engineer, I might try training my own model for this task. But until then, Gemini will have to do.
+        <h2>Why did you make this?</h2>
+        <p>
+            I started this as a passion project for the resume, and to learn and sharpen my skills in web development as well as other stuff like 
+            working with the Google Gemini API (is it just me or is their documentation incredibly shit?). Ironically, I am not incredibly 
+            interested in web development (and even less so in frontend development), but I do feel it's one of those essential skills that any 
+            software developer should have. I chose this project idea because I felt that it would be a genuinely useful tool for students such as 
+            myself, before realising that with an LLM armed with an MCP server, this sort of tool already exists. Regardless, I chose to push on 
+            to see what I can make.
+        </p>
+        <h3>I hope you enjoy using Syllaviz!</h3>
     </div>
     {% include 'partials/footer.html' %}
 </body>
