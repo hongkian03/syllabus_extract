@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Settings</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+    {% include 'partials/navbar.html' %}
+    <div class="settings">
+        <h1>User Settings</h1>
+        <p>Username: {{ user.username }}</p>
+        <p>Email: {{ user.email }}</p>
+        <br>
+        <br>
+        <a href="{% url 'change_username' %}">Change Username</a><br>
+        <a href="{% url 'change_email' %}">Change Email</a><br>
+        <a href="{% url 'change_password' %}">Change Password</a><br>
+        <a href="{% url 'update_api_key' %}">Update API Key</a><br>
+    </div>
+    {% include 'partials/footer.html' %}
+</body>
+</html>
