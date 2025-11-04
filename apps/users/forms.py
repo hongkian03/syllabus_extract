@@ -97,9 +97,18 @@ class ChangeUsernameForm(forms.ModelForm):
 
     def clean_username(self):
         username = self.cleaned_data.get("username")
-        if User.objects.filter(username__iexact=username).exists():
+        if User.objects.filter(username__iexact=username).exclude(pk=getattr(self.instance, "pk", None)).exists():
             raise forms.ValidationError("Username already in use.")
         return username
+    
+    def save(self, commit=True):
+        """Save and return the updated user instance."""
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+        return user
+    
+    
 
 # Change Email Form
 class ChangeEmailForm(forms.ModelForm):
@@ -113,39 +122,15 @@ class ChangeEmailForm(forms.ModelForm):
         email = self.cleaned_data.get("email")
         if not validate_email(email):
             raise forms.ValidationError("Please enter a valid email address.")
-        if User.objects.filter(email__iexact=email).exists():
+        if User.objects.filter(email__iexact=email).exclude(pk=getattr(self.instance, "pk", None)).exists():            
             raise forms.ValidationError("Email address already in use.")
         return email
 
-# Update API Key Form
-class UpdateAPIKeyForm(forms.ModelForm):
-    api_key = forms.CharField(
-        max_length=255,
-        required=False,
-        widget=forms.PasswordInput(render_value=True),
-        help_text="Your Gemini API key will be encrypted and stored securely."
-    )
-
-    class Meta:
-        model = User
-        fields = ("api_key",)
-
-    # check API key validity
-    def clean_api_key(self):
-        api_key = self.cleaned_data.get("api_key")
-        if api_key and not is_valid_gemini_api_key(api_key):
-            raise forms.ValidationError("Invalid Gemini API key.")
-        return api_key
-
     def save(self, commit=True):
+        """Save and return the updated user instance."""
         user = super().save(commit=False)
-        user.save()
-        api_key = self.cleaned_data.get("api_key")
-        if api_key:
-            profile, created = UserProfile.objects.get_or_create(user=user)
-            profile.api_key = api_key
-            profile.save()
-
+        if commit:
+            user.save()
         return user
 
 # Note: we will use PasswordChangeForm for changing password

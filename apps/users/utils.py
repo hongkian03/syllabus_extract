@@ -14,12 +14,12 @@ def decrypt(token: bytes) -> bytes:
 
 # method to validate Gemini API key
 def is_valid_gemini_api_key(api_key: str) -> bool:
-    client = genai.Client()
-    request = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents="Hello, World!",
-    )
-    if not request:
+    client = genai.Client(api_key=api_key)
+    try:
+        request = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents="Hello, World!",
+        )
+    except Exception as e:
         return False
-    else:
-        return True
+    return True

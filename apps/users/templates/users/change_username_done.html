@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up Successful</title>
+    <title>Username Changed</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/site.css' %}">
 </head>
 <body>
-    <h2>Sign Up Successful</h2>
-    <p><a href="{% url 'login' %}">Click here to log in</a></p>
+    <h2>Username Successfully Changed</h2>
+    <p>Your username has been updated.</p>
+    <a href="{% url 'settings' %}">Return to Settings</a>
 </body>
 </html>

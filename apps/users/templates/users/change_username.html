@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Change Username</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+    <h2>Change Username</h2>
+    <form action="{% url 'change_username' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Username</button>
+    </form>
+</body>
+</html>
